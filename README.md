@@ -6,9 +6,9 @@ A library for fast and robust 2D nesting of SVG shapes.
 
 Packaide was developed as part of the research project, Fabricaide, a system that helps designers of laser-cut objects make material-conscious design decisions and make the most of their scrap material. If you use Packaide as part of your research, please cite it as follows
 
-> Fabricaide: Fabrication-Aware Design for 2D Cutting Machines
-> Ticha Sethapakdi, Daniel Anderson, Adrian Reginald Chua Sy, Stefanie Mueller
-> To Appear in The Proceedings of the 2021 ACM CHI Conference on Human Factors in Computing Systems, 2021
+> **Fabricaide: Fabrication-Aware Design for 2D Cutting Machines**<br />
+> Ticha Sethapakdi, Daniel Anderson, Adrian Reginald Chua Sy, Stefanie Mueller<br />
+> Proceedings of the 2021 ACM CHI Conference on Human Factors in Computing Systems, 2021
 
 ## What is it?
 
