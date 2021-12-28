@@ -2,17 +2,17 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build:
-    name: ubuntu-latest Python
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          shell: bash
-      strategy:
-        matrix:
-          build_type: ["Debug", "RelWithDebInfo", "Release"]
-          config:
-            - { py_version: 3.8 }
+  linux:
+    name: ${{ matrix.config.os }} Python ${{ matrix.config.py_version }} (${{ matrix.build_type }})
+    runs-on: ${{ matrix.config.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
+        config:
+          - { os: ubuntu-latest, py_version: 3.8 }
     steps:
       - uses: actions/checkout@v2
 
