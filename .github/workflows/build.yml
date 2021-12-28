@@ -62,7 +62,7 @@ jobs:
 
       - name: Install CGAL (Ubuntu)
         if: startsWith(matrix.os, 'ubuntu')
-        run: sudo apt-get -qq install libcgal-dev
+        run: apt-get -qq install libcgal-dev
 
       - name: Install CGAL (Mac)
         if: startsWith(matrix.os, 'macos')
