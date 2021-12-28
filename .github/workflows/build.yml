@@ -3,6 +3,35 @@ on: [push, pull_request]
 
 jobs:
 
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Python libraries
+        run: |
+          pip install --user -r requirements.txt
+
+      - name: Install CGAL
+        run: |
+          sudo apt-get -qq install libcgal-dev
+
+      - name: Configure
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_DEBUG="-g -fno-omit-frame-pointer -fsanitize=address,undefined" ..
+
+      - name: Build
+        run: |
+          cd build
+          make
+
+      - name: Test
+        run: |
+          cd build
+          make check
+
   build_sdist:
     name: Build Source Distribution (sdist)
     runs-on: ubuntu-latest
@@ -20,45 +49,31 @@ jobs:
           path: dist/*.tar.gz
 
 
-  linux:
-    name: ${{ matrix.config.os }} Python ${{ matrix.config.py_version }} (${{ matrix.build_type }})
-    runs-on: ${{ matrix.config.os }}
-    defaults:
-      run:
-        shell: bash
+  build_wheels:
+    name: Build Wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        build_type: ["Debug", "RelWithDebInfo", "Release"]
-        config:
-          - { os: ubuntu-latest, py_version: 3.8 }
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.config.py_version }}
-
-      - name: Install Python libraries
-        run: |
-          pip install --user -r requirements.txt
-
       - name: Install CGAL
-        run: |
-          sudo apt-get -qq install libcgal-dev
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: sudo apt-get -qq install libcgal-dev
 
-      - name: Configure
-        run: |
-          mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DPYBIND11_PYTHON_VERSION=${{ matrix.config.py_version }} ..
+        if: startsWith(matrix.config.os, 'macos')
+        run: brew install cgal
 
-      - name: Build
-        run: |
-          cd build
-          cmake --build .
-          make install
+      - uses: pypa/cibuildwheel@v2.3.1
 
-      - name: Test
-        run: |
-          cd build
-          make check-installed
+      - name: Verify clean directory
+        run: git diff --exit-code
+        shell: bash
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v2
+        with:
+          path: wheelhouse/*.whl
