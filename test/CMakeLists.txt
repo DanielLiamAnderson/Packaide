@@ -22,8 +22,6 @@
 
 include(CTest)
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
-
 # Locations of the test script, the python library source,
 # and the compiled library for the C++ bindings
 set(TEST_PACKING "${CMAKE_CURRENT_SOURCE_DIR}/test_packing.py")

@@ -10,8 +10,6 @@
 # of the code, not the installed version (if any)
 #
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
-
 # Executes the benchmarks and creates the output files
 add_custom_target(benchmarks 
   COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHON_LIB_DIR}:${BINDINGS_LIB_DIR}:$ENV{PYTHONPATH}

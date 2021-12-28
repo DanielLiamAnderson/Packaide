@@ -67,7 +67,10 @@ if(NOT pybind_POPULATED)
   add_subdirectory(${pybind_SOURCE_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-find_package(Python3 ${PYBIND11_PYTHON_VERSION} REQUIRED COMPONENTS Interpreter)
+if (PYBIND11_PYTHON_VERSION)
+  set(FIND_PYTHON_VERSION_EXACT ${PYBIND11_PYTHON_VERSION} EXACT)
+endif()
+find_package(Python3 ${FIND_PYTHON_VERSION_EXACT} REQUIRED COMPONENTS Interpreter)
 
 add_subdirectory(src)
 
