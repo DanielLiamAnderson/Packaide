@@ -1,3 +1,4 @@
 parameterized
 shapely
 svgelements
+scikit-build

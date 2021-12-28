@@ -11,8 +11,6 @@ target_include_directories(PackaideBindings PRIVATE ${PROJECT_SOURCE_DIR}/includ
 target_link_libraries(PackaideBindings PRIVATE PackaideLib)
 target_compile_options(PackaideBindings PRIVATE -Wfatal-errors)
 
-# Configure installation. We opt to install into the Python packages
-# directory rather than the system library directory, for consistency
-# with the Python part of the library
+# Configure installation.
 set_target_properties(PackaideBindings PROPERTIES PREFIX "")
-install(TARGETS PackaideBindings DESTINATION "${Python3_STDARCH}")
+install(TARGETS PackaideBindings DESTINATION .)

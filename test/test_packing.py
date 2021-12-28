@@ -4,6 +4,14 @@ import os
 
 from parameterized import parameterized
 
+# Avoid importing the library if we are just listing tests, since this
+# gets ran at configuration time before the library is actually compiled
+# and installed yet
+if not '--list-tests' in sys.argv:
+  import packaide
+  import shapely.geometry
+
+
 # Test files, and the appropriate tolerance and offset to use for each one
 TEST_FILE_DIRECTORY = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'data')
 test_files = [
@@ -258,7 +266,4 @@ if __name__ == "__main__":
         tests.extend(['{}.{}'.format(name, test) for test in loader.getTestCaseNames(obj)])
     print('\n'.join(tests))
   else:
-    import packaide
-    import shapely.geometry
-    
     unittest.main()

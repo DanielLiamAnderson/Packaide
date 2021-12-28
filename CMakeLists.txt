@@ -75,11 +75,6 @@ find_package(Python3 ${FIND_PYTHON_VERSION_EXACT} REQUIRED COMPONENTS Interprete
 add_subdirectory(src)
 
 # -------------------------------------------------------------------
-#                     Python library installation
-
-add_subdirectory(python)
-
-# -------------------------------------------------------------------
 #                              Tests
 
 enable_testing()

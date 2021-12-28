@@ -1,0 +1,7 @@
+include README.md LICENSE CMakeLists.txt pyproject.toml requirements.txt
+include include/packaide/*
+include python/*
+include src/*
+include test/*
+include benchmark/*
+include data/*
