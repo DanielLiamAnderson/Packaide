@@ -1,11 +1,8 @@
 [build-system]
-requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja"]
+requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameterized"]
 
-# Install CGAL before building wheels. This is necessary because even
-# though we install CGAL ourself, the wheels might be build inside a
-# docker container, which does not have anything we have installed
+# Install CGAL before building wheels on Linux. This is necessary
+# because the wheels are built inside a # docker container, which
+# does not have any libraries we have installed
 [tool.cibuildwheel.linux]
 before-all = "apt-get -qq install libcgal-dev"
-
-[tool.cibuildwheel.macos]
-before-all = "brew install cgal"
