@@ -2,8 +2,8 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  linux:
-    name: ubuntu-latest Python ${{ matrix.config.py_version }} (${{ matrix.build_type }})
+  build:
+    name: ubuntu-latest Python
       runs-on: ubuntu-latest
       defaults:
         run:
