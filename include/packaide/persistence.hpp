@@ -12,13 +12,18 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <boost/functional/hash.hpp>
-
 #include <CGAL/Polygon_with_holes_2.h>
 
 #include "primitives.hpp"
 
 namespace packaide {
+
+// Borrowed from boost
+template <class T>
+inline void hash_combine(std::size_t& seed, const T& v) {
+  std::hash<T> hasher;
+  seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
 
 // A key for caching NFP computations
 // Consists of two (canonical) polygons and corresponding rotations
@@ -40,10 +45,10 @@ struct NFPCacheKeyHasher {
     // Start with a hash value of 0    .
     std::size_t seed = 0;
     auto hasher = CGAL::Handle_hash_function();
-    boost::hash_combine(seed,hasher(k.poly_A));
-    boost::hash_combine(seed,hasher(k.poly_B));
-    boost::hash_combine(seed,boost::hash_value(k.rotation_A));
-    boost::hash_combine(seed,boost::hash_value(k.rotation_B));
+    hash_combine(seed,hasher(k.poly_A));
+    hash_combine(seed,hasher(k.poly_B));
+    hash_combine(seed,std::hash<double>{}(k.rotation_A));
+    hash_combine(seed,std::hash<double>{}(k.rotation_B));
     return seed;
   }
 };
@@ -54,13 +59,13 @@ struct PolygonHasher {
     std::size_t seed = 0;
     for(auto hole = k.holes_begin(); hole != k.holes_end(); hole++){
       for(auto vertex = hole->vertices_begin(); vertex != hole->vertices_end(); vertex++){
-        boost::hash_combine(seed, boost::hash_value(to_double(vertex -> x())));
-        boost::hash_combine(seed, boost::hash_value(to_double(vertex -> y())));
+        hash_combine(seed, std::hash<double>{}(to_double(vertex -> x())));
+        hash_combine(seed, std::hash<double>{}(to_double(vertex -> y())));
       }
     }
     for(auto vertex = k.outer_boundary().vertices_begin(); vertex != k.outer_boundary().vertices_end(); vertex++){
-        boost::hash_combine(seed, boost::hash_value(to_double(vertex -> x())));
-        boost::hash_combine(seed, boost::hash_value(to_double(vertex -> y())));
+        hash_combine(seed, std::hash<double>{}(to_double(vertex -> x())));
+        hash_combine(seed, std::hash<double>{}(to_double(vertex -> y())));
       }
     return seed;
   }

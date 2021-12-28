@@ -3,10 +3,9 @@
 # -------------------------------------------------------------------
 # Requirements:
 #   - CMake version 3.13+
-#   - CGAL
-#   - Boost 1.65.1
-#   - Boost Python
 #   - A C++17 compiler
+#   - CGAL
+#   - Python 3.6+
 # -------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.13)
@@ -48,11 +47,27 @@ target_compile_features(PackaideLib INTERFACE cxx_std_17)
 # -------------------------------------------------------------------
 #                         Link with CGAL
 
+set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 find_package(CGAL)
 target_link_libraries(PackaideLib INTERFACE CGAL::CGAL)
 
 # -------------------------------------------------------------------
 #                         Python bindings
+
+# Download Pybind11
+include(FetchContent)
+FetchContent_Declare(pybind
+  GIT_REPOSITORY  https://github.com/pybind/pybind11
+  GIT_TAG         master
+)
+FetchContent_GetProperties(pybind)
+if(NOT pybind_POPULATED)
+  message(STATUS "Configuring Pybind11")
+  FetchContent_Populate(pybind)
+  add_subdirectory(${pybind_SOURCE_DIR} EXCLUDE_FROM_ALL)
+endif()
+
+find_package(Python3 ${PYBIND11_PYTHON_VERSION} REQUIRED COMPONENTS Interpreter)
 
 add_subdirectory(src)
 

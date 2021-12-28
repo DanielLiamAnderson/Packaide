@@ -21,15 +21,9 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 To build Packaide, you will need the following
 
 * A modern C++ compiler. GCC 7 and Clang 5 should be sufficient, but newer doesn't hurt. 
-* `CMake 3.13+` and a compatible build tool, e.g., Make. If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
+* `CMake 3.13+` and a compatible build tool, e.g., Make or Ninja. If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
 * `Python 3.6+` You might need to upgrade your Python version if it is lower than this.
-* `Boost 1.65.1+` This version is probably available in your package manager. If not, you may need to install it manually. See [Boost](https://www.boost.org/).
-* `Boost Python` You should be able to find this in your package manager. If not, see [Boost](https://www.boost.org/) as above.
 * `CGAL` Probably in your package manager. See [CGAL](https://www.cgal.org/index.html)
-
-**[!] IMPORTANT [!] Make sure that your Boost Python version corresponds to your Python version. Boost Python compiled for Python 2 will not work with Python 3. Even different subversions (e.g. Python 3.6 vs Python 3.7) may be incompatible.**
-
-In theory, everything should be doable on Windows, but we haven't tried, and it might require some fiddling.
 
 ## Building and installing
 
