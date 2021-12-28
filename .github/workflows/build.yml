@@ -70,7 +70,7 @@ jobs:
 
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: 
+        run: echo 'umm'
 
       - uses: pypa/cibuildwheel@v2.3.1
 
