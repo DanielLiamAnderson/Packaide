@@ -3,8 +3,8 @@ on: [push, pull_request]
 
 jobs:
   linux:
-    name: ${{ matrix.config.os }} Python ${{ matrix.config.py_version }} (${{ matrix.build_type }})
-      runs-on: ${{ matrix.config.os }}
+    name: ubuntu-latest Python ${{ matrix.config.py_version }} (${{ matrix.build_type }})
+      runs-on: ubuntu-latest
       defaults:
         run:
           shell: bash
@@ -12,7 +12,7 @@ jobs:
         matrix:
           build_type: ["Debug", "RelWithDebInfo", "Release"]
           config:
-            - { os: ubuntu-latest, py_version: 3.8 }
+            - { py_version: 3.8 }
     steps:
       - uses: actions/checkout@v2
 
