@@ -60,12 +60,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install CGAL
-        if: startsWith(matrix.config.os, 'ubuntu')
+      - name: Install CGAL (Ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
         run: sudo apt-get -qq install libcgal-dev
 
-        if: startsWith(matrix.config.os, 'macos')
+      - name: Install CGAL (Mac)
+        if: startsWith(matrix.os, 'macos')
         run: brew install cgal
+
+      - name: Install CGAL (Windows)
+        if: startsWith(matrix.os, 'windows')
+        run: 
 
       - uses: pypa/cibuildwheel@v2.3.1
 
