@@ -11,7 +11,7 @@ from parameterized import parameterized
 if not '--list-tests' in sys.argv:
   # Write out the PYTHONPATH since it affects whether Python will
   # try to load a source version of the library or an installed one
-  if 'PYTHONPATH' in os.environ:
+  if  __name__ == "__main__" and 'PYTHONPATH' in os.environ:
     print('Running tests with PYTHONPATH={}'.format(os.environ['PYTHONPATH']))
 
   import packaide

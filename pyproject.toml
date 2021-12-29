@@ -1,8 +1,8 @@
 [build-system]
-requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameterized"]
+requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja"]
 
 [tool.cibuildwheel]
-test-requires = ["pytest", "parameterized", "shapely", "svgelements"]
+test-requires = ["pytest", "parameterized", "shapely", "svgelements", "numpy", "scipy"]
 test-command = "pytest {project}/test/test_packing.py"
 
 # Skip 32-bit builds

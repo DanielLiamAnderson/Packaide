@@ -1,4 +1,6 @@
-parameterized
+numpy
+scipy
 shapely
 svgelements
+parameterized
 scikit-build
