@@ -12,6 +12,6 @@ before-all = [
   "cd cgal",
   "mkdir build && cd build",
   "cmake -DCMAKE_INSTALL_PREFIX=/cgal -DCMAKE_BUILD_TYPE=Release ..",
-  "make -j2 VERBOSE=1",
-  "sudo make install"
+  "cmake --build .",
+  "cmake --build . --target install"
 ]

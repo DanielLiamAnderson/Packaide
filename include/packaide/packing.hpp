@@ -233,7 +233,7 @@ std::vector<std::vector<packaide::Placement>> pack_decreasing(
   // Perform the packing with decreasing size order
   auto packing = pack_polygons_ordered_first_fit(sheets, order, canonical_polygons, state, partial_solution, rotations);
   if (packing.has_value()) {
-    return packing.value();
+    return *packing;
   }
   else {
     return {};
