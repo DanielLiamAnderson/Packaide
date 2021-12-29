@@ -2,3 +2,4 @@ parameterized
 shapely
 svgelements
 scikit-build
+pytest
