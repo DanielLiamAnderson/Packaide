@@ -9,11 +9,11 @@ test-command = "pytest {project}/test/test_packing.py"
 skip = ["*-win32", "*-manylinux_i686"]
 
 # We install CGAL via Conda on Windows, but CMake doesn't know
-# where to find it by default
+# where to find it by default.
 [tool.cibuildwheel.windows]
 environment = { CMAKE_PREFIX_PATH='$CONDA/Library', PATH='$CONDA/Library/bin;$PATH' }
 
-# Use delvewheel to get depedencies in the wheel
+# Use delvewheel to get DLL depedencies in the wheel on Windows
 before-build = "pip install delvewheel"
 repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path='$CONDA/Library/bin'"
 

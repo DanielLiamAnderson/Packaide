@@ -4,10 +4,16 @@ import os
 
 from parameterized import parameterized
 
+
 # Avoid importing the library if we are just listing tests, since this
 # gets ran at configuration time before the library is actually compiled
 # and installed yet
 if not '--list-tests' in sys.argv:
+  # Write out the PYTHONPATH since it affects whether Python will
+  # try to load a source version of the library or an installed one
+  if 'PYTHONPATH' in os.environ:
+    print('Running tests with PYTHONPATH={}'.format(os.environ['PYTHONPATH']))
+
   import packaide
   import shapely.geometry
 

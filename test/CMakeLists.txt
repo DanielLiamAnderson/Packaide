@@ -42,12 +42,21 @@ foreach(TEST ${TEST_LIST})
            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endforeach()
 
+# Unfortunately there is no nicer way to write a list of paths
+# in a platform independent way. On Windows, we need to seperate
+# list elements with a ; and on Unix a :
+if(WIN32)
+  set(PATHSEP "\\;")
+else()
+  set(PATHSEP ":")
+endif()
+
 # Create a single target that runs all of the tests via CTest.  We
 # set the PYTHONPATH environment variable to ensure that the test
 # script always loads the source version of the library, rather than
 # a possibly out-of-date installed version of the library.
 add_custom_target(check
-  COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHON_LIB_DIR}:${BINDINGS_LIB_DIR}:$ENV{PYTHONPATH}
+  COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH="${PYTHON_LIB_DIR}${PATHSEP}${BINDINGS_LIB_DIR}${PATHSEP}$ENV{PYTHONPATH}"
   ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure --timeout=120
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
