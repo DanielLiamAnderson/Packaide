@@ -8,10 +8,10 @@ requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameteri
 before-all = [
   "yum install gmp-devel -y",
   "yum install boost-devel -y",
-  "git clone --depth 1 https://github.com/CGAL/cgal.git"
-  "cd cgal"
-  "mkdir build && cd build"
-  "cmake -DCMAKE_INSTALL_PREFIX=/cgal -DCMAKE_BUILD_TYPE=Release ..
-  "make -j2 VERBOSE=1"
+  "git clone --depth 1 https://github.com/CGAL/cgal.git",
+  "cd cgal",
+  "mkdir build && cd build",
+  "cmake -DCMAKE_INSTALL_PREFIX=/cgal -DCMAKE_BUILD_TYPE=Release ..",
+  "make -j2 VERBOSE=1",
   "sudo make install"
 ]
