@@ -8,7 +8,7 @@ test-command = "pytest {project}/test/test_packing.py"
 # We install CGAL via Conda on Windows, but CMake doesn't know
 # where to find it by default
 [tool.cibuildwheel.windows]
-environment = { CMAKE_PREFIX_PATH='$CONDA\Library' }
+environment = { CMAKE_PREFIX_PATH='$CONDA/Library' }
 
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a docker container, which

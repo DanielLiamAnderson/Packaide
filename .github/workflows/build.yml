@@ -33,7 +33,7 @@ jobs:
           make check
 
   build_sdist:
-    name: Build Source Distribution (sdist)
+    name: Build Source Distribution
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
