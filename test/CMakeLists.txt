@@ -48,7 +48,7 @@ endforeach()
 # a possibly out-of-date installed version of the library.
 add_custom_target(check
   COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHON_LIB_DIR}:${BINDINGS_LIB_DIR}:$ENV{PYTHONPATH}
-  ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure
+  ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure --timeout=120
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 add_dependencies(check PackaideBindings)
@@ -58,6 +58,6 @@ add_dependencies(check PackaideBindings)
 # are installed somewhere visible to Python
 add_custom_target(check-installed
   ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR} --timeout=120
 )
 add_dependencies(check PackaideBindings)
