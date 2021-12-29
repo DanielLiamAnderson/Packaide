@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
 
   debug:
-    name: Debug
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -68,13 +68,10 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: brew install cgal
 
-      # Use Conda to install CGAL on Windows (VCPKG takes 30+ minutes)
+      # Use Conda to install CGAL on Windows
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: |
-          C:\Miniconda\condabin\conda.bat install -y -v -c conda-forge cgal-cpp
-          ls C:\Miniconda\*
-        #vcpkg install cgal
+        run: C:\Miniconda\condabin\conda.bat install -y -c conda-forge cgal-cpp
 
       - uses: pypa/cibuildwheel@v2.3.1
 
