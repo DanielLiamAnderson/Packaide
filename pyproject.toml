@@ -1,5 +1,8 @@
 [build-system]
-requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameterized"]
+requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameterized", "pytest"]
+
+[tool.cibuildwheel]
+test-command = "pytest test/test_packing.py"
 
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a # docker container, which
@@ -7,6 +10,7 @@ requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameteri
 [tool.cibuildwheel.linux]
 before-all = [
   "yum install gmp-devel -y",
+  "yum install mpfr-devel -y",
   "yum install boost-devel -y",
   "git clone --depth 1 https://github.com/CGAL/cgal.git",
   "cd cgal",
