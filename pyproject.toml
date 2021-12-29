@@ -10,8 +10,9 @@ test-command = "pytest {project}/test/test_packing.py"
 # does not have any libraries we have installed.
 [tool.cibuildwheel.linux]
 before-all = [
-  "curl -O https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz",
-  "tar -xzf boost_1_76_0.tar.gz",
+  "curl https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz -o boost.tar.gz",
+  "ls",
+  "tar -xzf boost.tar.gz",
   "cd boost_1_76_0",
   "./bootstrap.sh --prefix=/opt/boost",
   "./b2 install --prefix=/opt/boost --with=all",
