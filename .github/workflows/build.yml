@@ -63,14 +63,17 @@ jobs:
       # Note: We do not install CGAL here on Linux because the wheels are
       # built inside a docker image, so they won't see it anyway
 
+      # Use Homebrew to install CGAL on Mac
       - name: Install CGAL (Mac)
         if: startsWith(matrix.os, 'macos')
         run: brew install cgal
 
+      # Use Conda to install CGAL on Windows (VCPKG takes 30+ minutes)
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: C:\Miniconda\condabin\conda.bat install -y -c conda-forge cgal-cpp
-        #vcpkg install yasm-tool:x86-windows
+        run: |
+          C:\Miniconda\condabin\conda.bat install -y -v -c conda-forge cgal-cpp
+          ls C:\Miniconda\*
         #vcpkg install cgal
 
       - uses: pypa/cibuildwheel@v2.3.1

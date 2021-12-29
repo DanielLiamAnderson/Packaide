@@ -5,6 +5,9 @@ requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameteri
 test-requires = ["pytest", "parameterized", "shapely", "svgelements"]
 test-command = "pytest {project}/test/test_packing.py"
 
+[tool.cibuildwheel.windows]
+environment = { CMAKE_PREFIX_PATH='$CONDA\lib' }
+
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a docker container, which
 # does not have any libraries we have installed.
