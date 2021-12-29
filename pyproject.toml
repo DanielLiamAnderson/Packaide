@@ -13,6 +13,10 @@ skip = ["*-win32", "*-manylinux_i686"]
 [tool.cibuildwheel.windows]
 environment = { CMAKE_PREFIX_PATH='$CONDA/Library' }
 
+# Use delvewheel to get depedencies in the wheel
+before-build = "pip install delvewheel"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"
+
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a docker container, which
 # does not have any libraries we have installed.

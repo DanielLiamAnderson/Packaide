@@ -8,11 +8,11 @@ import svgelements
 from xml.dom import minidom
 
 try:
-  from .PackaideBindings import Point, Polygon, PolygonWithHoles, Sheet, State, Placement
-  from .PackaideBindings import pack_decreasing, sheet_add_holes
+  from ._packaide import Point, Polygon, PolygonWithHoles, Sheet, State, Placement
+  from ._packaide import pack_decreasing, sheet_add_holes
 except:
-  from PackaideBindings import Point, Polygon, PolygonWithHoles, Sheet, State, Placement
-  from PackaideBindings import pack_decreasing, sheet_add_holes
+  from _packaide import Point, Polygon, PolygonWithHoles, Sheet, State, Placement
+  from _packaide import pack_decreasing, sheet_add_holes
 
 # We want to preserve presentation and identification (e.g., id, name, class) attributes
 # when flattening the SVG elements and writing them into the output, so that the packed

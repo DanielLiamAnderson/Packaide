@@ -13,14 +13,14 @@
 # Executes the benchmarks and creates the output files
 add_custom_target(benchmarks 
   COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHON_LIB_DIR}:${BINDINGS_LIB_DIR}:$ENV{PYTHONPATH}
-  ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark.py --run
+  ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark.py --run
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
-add_dependencies(benchmarks PackaideBindings)
+add_dependencies(benchmarks _packaide)
 
 # Plots the results of the benchmarks
 add_custom_target(plots 
   COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHON_LIB_DIR}:${BINDINGS_LIB_DIR}:$ENV{PYTHONPATH}
-  ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark.py --plot
+  ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark.py --plot
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )

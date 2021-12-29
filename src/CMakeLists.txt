@@ -6,10 +6,10 @@ if(APPLE)
 endif(APPLE)
 
 # Configure the target for the bindings library
-pybind11_add_module(PackaideBindings bindings.cpp)
-target_include_directories(PackaideBindings PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(PackaideBindings PRIVATE PackaideLib)
+pybind11_add_module(_packaide bindings.cpp)
+target_include_directories(_packaide PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(_packaide PRIVATE PackaideLib)
 
 # Configure installation.
-set_target_properties(PackaideBindings PROPERTIES PREFIX "")
-install(TARGETS PackaideBindings DESTINATION .)
+set_target_properties(_packaide PROPERTIES PREFIX "")
+install(TARGETS _packaide DESTINATION .)

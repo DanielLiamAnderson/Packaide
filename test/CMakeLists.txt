@@ -29,7 +29,7 @@ set(PYTHON_LIB_DIR ${CMAKE_SOURCE_DIR}/python)
 set(BINDINGS_LIB_DIR ${CMAKE_BINARY_DIR}/src)
 
 # Extract a list of test case names
-execute_process(COMMAND ${Python3_EXECUTABLE} ${TEST_PACKING} --list-tests
+execute_process(COMMAND ${PYTHON_EXECUTABLE} ${TEST_PACKING} --list-tests
                 OUTPUT_VARIABLE STR_TESTS
                 OUTPUT_STRIP_TRAILING_WHITESPACE
                 ERROR_STRIP_TRAILING_WHITESPACE)
@@ -38,7 +38,7 @@ separate_arguments(TEST_LIST UNIX_COMMAND ${STR_TESTS})
 # Create a test target for each test case.
 foreach(TEST ${TEST_LIST})
   add_test(NAME ${TEST}
-           COMMAND ${Python3_EXECUTABLE} ${TEST_PACKING} "-v" ${TEST}
+           COMMAND ${PYTHON_EXECUTABLE} ${TEST_PACKING} "-v" ${TEST}
            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endforeach()
 
@@ -51,7 +51,7 @@ add_custom_target(check
   ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure --timeout=120
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
-add_dependencies(check PackaideBindings)
+add_dependencies(check _packaide)
 
 # Create a target that runs all of the tests via CTest without
 # loading the source libraries. This will ensure that the libraries
@@ -60,4 +60,4 @@ add_custom_target(check-installed
   ${CMAKE_CTEST_COMMAND} --no-tests=error --output-on-failure
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR} --timeout=120
 )
-add_dependencies(check PackaideBindings)
+add_dependencies(check _packaide)

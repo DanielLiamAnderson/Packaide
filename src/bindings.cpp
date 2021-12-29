@@ -119,7 +119,7 @@ pybind11::list pack_decreasing_bind(
 // ----------------------------------------------
 //              Export bindings
 
-PYBIND11_MODULE(PackaideBindings, m) {
+PYBIND11_MODULE(_packaide, m) {
 
   pybind11::class_<packaide::Point>(m, "Point")
     .def(pybind11::init<double,double>())
