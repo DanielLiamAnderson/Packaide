@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameteri
 
 [tool.cibuildwheel]
 test-requires = ["pytest"]
-test-command = "pytest test/test_packing.py"
+test-command = "pytest {project}/test/test_packing.py"
 
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a # docker container, which
