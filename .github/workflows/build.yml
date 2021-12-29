@@ -69,7 +69,7 @@ jobs:
 
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: $CONDA/bin/conda install -y cgal
+        run: C:\Miniconda\condabin\conda.bat install -y cgal
         #vcpkg install yasm-tool:x86-windows
         #vcpkg install cgal
 
