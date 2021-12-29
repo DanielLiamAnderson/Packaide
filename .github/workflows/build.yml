@@ -69,10 +69,7 @@ jobs:
 
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: |
-          echo "$CONDA/condabin" >> $env:GITHUB_PATH
-          echo "$CONDA/Library/bin" >> $env:GITHUB_PATH
-          conda install -y cgal
+        run: $CONDA/bin/conda install -y cgal
         #vcpkg install yasm-tool:x86-windows
         #vcpkg install cgal
 
