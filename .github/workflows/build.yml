@@ -60,9 +60,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install CGAL (Ubuntu)
-        if: startsWith(matrix.os, 'ubuntu')
-        run: sudo apt-get -qq install libcgal-dev
+      # Note: We do not install CGAL here on Linux because the wheels are
+      # built inside a docker image, so they won't see it anyway
 
       - name: Install CGAL (Mac)
         if: startsWith(matrix.os, 'macos')
