@@ -10,5 +10,5 @@ test-command = "pytest {project}/test/test_packing.py"
 # does not have any libraries we have installed
 [tool.cibuildwheel.linux]
 before-all = [
-  "yum install cgal-devel -y"
+  "yum install CGAL-devel -y"
 ]
