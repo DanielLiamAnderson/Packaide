@@ -8,6 +8,11 @@
 #   - Python 3.6+
 # -------------------------------------------------------------------
 
+# Help CMake find libraries installed with VCPKG. (This must occur before the project command)
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
 cmake_minimum_required(VERSION 3.13)
 project(Packaide VERSION 1.0
              DESCRIPTION "Fast and robust 2D nesting"
@@ -22,7 +27,6 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 # Make sure -fno-omit-frame-pointer is set for profiling
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -fno-omit-frame-pointer")
-
 
 message(STATUS "--------------- General configuration -------------")
 message(STATUS "CMake Generator:                ${CMAKE_GENERATOR}")
