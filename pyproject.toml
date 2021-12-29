@@ -2,7 +2,7 @@
 requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja", "parameterized"]
 
 [tool.cibuildwheel]
-test-requires = ["pytest"]
+test-requires = ["pytest", "parameterized", "shapely", "svgelements"]
 test-command = "pytest {project}/test/test_packing.py"
 
 # Install CGAL before building wheels on Linux. This is necessary
