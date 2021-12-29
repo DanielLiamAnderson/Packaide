@@ -3,9 +3,12 @@ on: [push, pull_request]
 
 jobs:
 
-  debug:
-    name: Test
+  test:
+    name: Test (${{ matrix.build_type }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
     steps:
       - uses: actions/checkout@v2
 
@@ -20,7 +23,7 @@ jobs:
       - name: Configure
         run: |
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Debug ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
       - name: Build
         run: |
