@@ -15,7 +15,7 @@ environment = { CMAKE_PREFIX_PATH='$CONDA/Library' }
 
 # Use delvewheel to get depedencies in the wheel
 before-build = "pip install delvewheel"
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path='$CONDA/Library'"
 
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a docker container, which
