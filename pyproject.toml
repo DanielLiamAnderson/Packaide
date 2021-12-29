@@ -6,9 +6,21 @@ test-requires = ["pytest", "parameterized", "shapely", "svgelements"]
 test-command = "pytest {project}/test/test_packing.py"
 
 # Install CGAL before building wheels on Linux. This is necessary
-# because the wheels are built inside a # docker container, which
-# does not have any libraries we have installed
+# because the wheels are built inside a docker container, which
+# does not have any libraries we have installed.
 [tool.cibuildwheel.linux]
 before-all = [
-  "yum install CGAL-devel -y"
+  "wget https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz",
+  "tar -xzf boost_1_76_0.tar.gz",
+  "cd boost_1_76_0",
+  "./bootstrap.sh --prefix=/opt/boost",
+  "./b2 install --prefix=/opt/boost --with=all",
+  "yum install gmp-devel -y",
+  "yum install mpfr-devel -y",
+  "git clone --depth 1 https://github.com/CGAL/cgal.git",
+  "cd cgal",
+  "mkdir build && cd build",
+  "cmake -DCMAKE_INSTALL_PREFIX=/cgal -DCMAKE_BUILD_TYPE=Release ..",
+  "cmake --build .",
+  "cmake --build . --target install"
 ]
