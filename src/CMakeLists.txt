@@ -9,7 +9,6 @@ endif(APPLE)
 pybind11_add_module(PackaideBindings bindings.cpp)
 target_include_directories(PackaideBindings PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(PackaideBindings PRIVATE PackaideLib)
-target_compile_options(PackaideBindings PRIVATE -Wfatal-errors)
 
 # Configure installation.
 set_target_properties(PackaideBindings PROPERTIES PREFIX "")
