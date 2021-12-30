@@ -10,6 +10,7 @@ jobs:
       run:
         shell: bash
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -38,7 +39,7 @@ jobs:
       # Use Conda to install CGAL on Windows
       - name: Install CGAL (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: C:\Miniconda\condabin\conda.bat install -y -c conda-forge cgal-cpp
+        run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp
 
       - name: Configure
         run: |
