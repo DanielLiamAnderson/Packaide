@@ -17,9 +17,6 @@ jobs:
         - { os: macos-latest }
         - { os: windows-latest, prefix_path: "C:/Miniconda/Library", lib_path: "C:/Miniconda/Library/bin" }
         py_version: ['3.6', '3.10']
-    env:
-      PATH: $PATH:${{ matrix.config.lib_path }}
-      PYTHONPATH: ${{ matrix.config.lib_path }}
     steps:
       - uses: actions/checkout@v2
 
@@ -27,6 +24,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.py_version }}
+
+      - name: Ensure PATH
+        run: echo "${{ matrix.config.lib_path }}" >> $GITHUB_PATH
 
       # Use apt to install CGAL on Ubuntu
       - name: Install CGAL (Linux)
