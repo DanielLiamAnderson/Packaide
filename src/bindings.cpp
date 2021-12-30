@@ -34,15 +34,6 @@ Polygon_2 to_cgal_polygon(const pybind11::handle& polygon) {
   return to_cgal_polygon(*(polygon.cast<packaide::Polygon*>()));
 }
 
-// Convert from a CGAL polygon to a Packaide polygon
-packaide::Polygon to_packaide_polygon(const Polygon_2& polygon) {
-  packaide::Polygon P;
-  for (auto v = polygon.vertices_begin(); v != polygon.vertices_end(); ++v) {
-    P.add_point(packaide::Point(to_double(v->x()),to_double(v->y())));
-  }
-  return P;
-}
-
 // Convert from a Packaide polygon with holes to a CGAL polygon with holes
 Polygon_with_holes_2 to_cgal_polygon_with_holes(const packaide::PolygonWithHoles& polygon) {
   auto boundary = to_cgal_polygon(polygon.boundary);
@@ -91,9 +82,9 @@ pybind11::list pack_decreasing_bind(
   int rotations = 4) 
 {
   // Convert input into CGAL polygons
-  std::vector<Polygon_with_holes_2> pgons;
+  std::vector<Polygon_with_holes_2> cpp_polygons;
   for(const auto& polygon : polygons) {
-    pgons.push_back(to_cgal_polygon_with_holes(polygon));
+    cpp_polygons.push_back(to_cgal_polygon_with_holes(polygon));
   }
   std::vector<packaide::Sheet> cpp_sheets;
   for(const auto& sheet : sheets) {
@@ -101,7 +92,7 @@ pybind11::list pack_decreasing_bind(
   }
 
   // Run packing
-  auto sheet_placements = packaide::pack_decreasing(cpp_sheets, pgons, state, partial_solution, rotations);
+  auto sheet_placements = packaide::pack_decreasing(cpp_sheets, cpp_polygons, state, partial_solution, rotations);
 
   // Convert output to Python list of lists
   pybind11::list python_sheets;
@@ -110,7 +101,7 @@ pybind11::list pack_decreasing_bind(
     for (const auto& placement : sheet) {
       python_sheet.append(placement);
     }
-    python_sheets.append(python_sheet);
+    python_sheets.append(std::move(python_sheet));
   }
 
   return python_sheets;
