@@ -43,7 +43,7 @@ jobs:
         run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp
 
       - name: Install Shapely
-        if: ${{ (startsWith(matrix.config.os, 'windows') == 'true') && (matrix.config.py_version == '3.10') }}
+        if: startsWith(matrix.config.os, 'windows') && matrix.py_version == '3.10'
         run: pip install https://download.lfd.uci.edu/pythonlibs/x6hvwk7i/Shapely-1.8.0-cp310-cp310-win_amd64.whl
 
       - name: Install Python libraries
