@@ -16,7 +16,7 @@ jobs:
         config:
         - { os: ubuntu-latest }
         - { os: macos-latest }
-        - { os: windows-latest, prefix_path="C:/Miniconda/Library", lib_path="C:/Miniconda/Library/bin" }
+        - { os: windows-latest, prefix_path: "C:/Miniconda/Library", lib_path: "C:/Miniconda/Library/bin" }
         py_version: ['3.6', '3.10']
     steps:
       - uses: actions/checkout@v2
