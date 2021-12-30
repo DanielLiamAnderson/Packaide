@@ -26,9 +26,6 @@ jobs:
         with:
           python-version: ${{ matrix.py_version }}
 
-      - name: Install Python libraries
-        run: pip install --user -r requirements.txt
-
       # Use apt to install CGAL on Ubuntu
       - name: Install CGAL (Linux)
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -43,6 +40,9 @@ jobs:
       - name: Install CGAL (Windows)
         if: startsWith(matrix.config.os, 'windows')
         run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp geos
+
+      - name: Install Python libraries
+        run: pip install --user -r requirements.txt
 
       - name: Configure
         run: |
