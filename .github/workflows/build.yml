@@ -31,18 +31,19 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu')
         run: sudo apt-get -qq install libcgal-dev
 
-      # Use Homebrew to install CGAL on Mac (we also install Geos since Shapely is missing the wheel for 3.10)
+      # Use Homebrew to install CGAL on Mac (we also install Geos since Shapely is missing
+      # the wheel for 3.10, but Shapely can compile itself if Geos is installed)
       - name: Install CGAL (Mac)
         if: startsWith(matrix.config.os, 'macos')
         run: brew install cgal geos
 
-      # Use Conda to install CGAL on Windows (we also install Geos since Shapely is missing the wheel for 3.10)
+      # Use Conda to install CGAL on Windows
       - name: Install CGAL (Windows)
         if: startsWith(matrix.config.os, 'windows')
-        run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp geos
+        run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp
 
       - name: Install Shapely
-        if: startsWith(matrix.config.os, 'windows') && matrix.config.py_version == '3.10'
+        if: ${{ (startsWith(matrix.config.os, 'windows') == 'true') && (matrix.config.py_version == '3.10') }}
         run: pip install https://download.lfd.uci.edu/pythonlibs/x6hvwk7i/Shapely-1.8.0-cp310-cp310-win_amd64.whl
 
       - name: Install Python libraries
