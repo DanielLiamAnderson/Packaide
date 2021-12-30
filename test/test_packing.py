@@ -11,8 +11,9 @@ from parameterized import parameterized
 if not '--list-tests' in sys.argv:
   # Write out the PYTHONPATH since it affects whether Python will
   # try to load a source version of the library or an installed one
-  if  __name__ == "__main__" and 'PYTHONPATH' in os.environ:
-    print('Running tests with PYTHONPATH={}'.format(os.environ['PYTHONPATH']))
+  if  __name__ == "__main__":
+    print('Running tests with PYTHONPATH={}'.format(os.environ['PYTHONPATH'] if 'PYTHONPATH' in os.environ else ''))
+    print('Running tests with PATH={}'.format(os.environ['PATH'] if 'PATH' in os.environ else ''))
 
   import packaide
   import shapely.geometry

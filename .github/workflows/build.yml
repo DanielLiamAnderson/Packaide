@@ -17,6 +17,9 @@ jobs:
         - { os: macos-latest }
         - { os: windows-latest, prefix_path: "C:/Miniconda/Library", lib_path: "C:/Miniconda/Library/bin" }
         py_version: ['3.6', '3.10']
+    env:
+      PATH: $PATH:${{ matrix.config.lib_path }}
+      PYTHONPATH: ${{ matrix.config.lib_path }}
     steps:
       - uses: actions/checkout@v2
 
@@ -46,12 +49,12 @@ jobs:
         run: pip install https://download.lfd.uci.edu/pythonlibs/x6hvwk7i/Shapely-1.8.0-cp310-cp310-win_amd64.whl
 
       - name: Install Python libraries
-        run: PATH=$PATH:${{ matrix.config.lib_path }} pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Configure
         run: |
           mkdir build && cd build
-          PATH=$PATH:${{ matrix.config.lib_path }} PYTHONPATH=${{ matrix.config.lib_path }} cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
 
       - name: Build
         run: |
@@ -61,7 +64,7 @@ jobs:
       - name: Test
         run: |
           cd build
-          PATH=$PATH:${{ matrix.config.lib_path }} cmake --build . --target check
+          cmake --build . --target check
 
   build_sdist:
     name: Build Source Distribution
