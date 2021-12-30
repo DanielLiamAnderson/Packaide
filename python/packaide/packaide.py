@@ -1,11 +1,19 @@
 import io
 import math
+import os
 import shapely.geometry
 import shapely.ops
 import re
 import svgelements
 
 from xml.dom import minidom
+
+# Windows hack to get the dependency DLLs loadable
+# Need to find a better solution than this, hopefully
+if "add_dll_directory" in dir(os):
+  for d in os.environ['path'].split(';'):
+    if os.path.isdir(d):
+      os.add_dll_directory(d)
 
 try:
   from ._packaide import Point, Polygon, PolygonWithHoles, Sheet, State, Placement

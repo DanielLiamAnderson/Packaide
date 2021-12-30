@@ -2,35 +2,6 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  debug:
-    name: Try to debug
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-
-      - name: Install CGAL
-        run: brew install cgal geos gcc gdb
-
-      - name: Install Python libraries
-        run: pip install -r requirements.txt
-
-      - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
-
-      - name: Build
-        run: cd build && cmake --build .
-
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
-
-      - name: Test
-        run: PYTHONPATH=${{ github.workspace }}/python/:${{ github.workspace }}/build/src/ gdb -ex run --args python test/test_packing.py
-
   test:
     name: Test Python ${{ matrix.py_version }} on ${{ matrix.config.os }} (${{ matrix.build_type }})
     runs-on: ${{ matrix.config.os }}
