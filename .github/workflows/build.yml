@@ -47,7 +47,7 @@ jobs:
       - name: Configure
         run: |
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
+          PYTHONPATH=${{ matrix.config.lib_path }} cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
 
       - name: Build
         run: |
