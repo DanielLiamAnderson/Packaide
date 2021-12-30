@@ -34,15 +34,15 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu')
         run: sudo apt-get -qq install libcgal-dev
 
-      # Use Homebrew to install CGAL on Mac
+      # Use Homebrew to install CGAL on Mac (we also install Geos since Shapely is missing the wheel for 3.10)
       - name: Install CGAL (Mac)
         if: startsWith(matrix.config.os, 'macos')
-        run: brew install cgal
+        run: brew install cgal geos
 
-      # Use Conda to install CGAL on Windows
+      # Use Conda to install CGAL on Windows (we also install Geos since Shapely is missing the wheel for 3.10)
       - name: Install CGAL (Windows)
         if: startsWith(matrix.config.os, 'windows')
-        run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp
+        run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp geos
 
       - name: Configure
         run: |

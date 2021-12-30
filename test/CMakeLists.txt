@@ -31,7 +31,6 @@ if (NOT SKBUILD)
   # and the compiled library for the C++ bindings
   set(TEST_PACKING "${CMAKE_CURRENT_SOURCE_DIR}/test_packing.py")
   set(PYTHON_LIB_DIR ${CMAKE_SOURCE_DIR}/python)
-  set(BINDINGS_LIB_DIR ${CMAKE_BINARY_DIR}/src)
 
   # Extract a list of test case names
   execute_process(COMMAND ${PYTHON_EXECUTABLE} ${TEST_PACKING} --list-tests
@@ -56,12 +55,12 @@ if (NOT SKBUILD)
     set(PATHSEP ":")
   endif()
 
-  # Create a single target that runs all of the tests via CTest.  We
+  # Create a single target that runs all of the tests via CTest. We
   # set the PYTHONPATH environment variable to ensure that the test
   # script always loads the source version of the library, rather than
   # a possibly out-of-date installed version of the library.
   add_custom_target(check
-    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH="${PYTHON_LIB_DIR}${PATHSEP}${BINDINGS_LIB_DIR}${PATHSEP}$ENV{PYTHONPATH}"
+    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH="${PYTHON_LIB_DIR}${PATHSEP}$<TARGET_FILE_DIR:_packaide>${PATHSEP}$ENV{PYTHONPATH}"
     ${CMAKE_CTEST_COMMAND} -C ${CMAKE_BUILD_TYPE} --no-tests=error --output-on-failure --timeout=120
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   )
