@@ -14,13 +14,13 @@ jobs:
           python-version: '3.10'
 
       - name: Install CGAL
-        run: brew install cgal geos
+        run: brew install cgal geos gcc gdb
 
       - name: Install Python libraries
         run: pip install -r requirements.txt
 
       - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
+        run: CXX=g++-11 mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
 
       - name: Build
         run: cd build && cmake --build .
