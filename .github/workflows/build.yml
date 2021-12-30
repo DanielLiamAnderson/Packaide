@@ -20,10 +20,13 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Configure
-        run: CXX=g++-11 mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
+        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
 
       - name: Build
         run: cd build && cmake --build .
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
 
       - name: Test
         run: PYTHONPATH=${{ github.workspace }}/python/:${{ github.workspace }}/build/src/ gdb -ex run --args python test/test_packing.py
