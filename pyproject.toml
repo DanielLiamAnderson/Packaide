@@ -2,8 +2,8 @@
 requires = ["setuptools", "wheel", "scikit-build", "cmake", "ninja"]
 
 [tool.cibuildwheel]
-test-requires = ["pytest", "parameterized", "shapely", "svgelements", "numpy", "scipy"]
-test-command = "pytest {project}/test/test_packing.py"
+test-requires = ["parameterized", "shapely", "svgelements", "numpy", "scipy"]
+test-command = "python {project}/test/test_packing.py"
 
 # Skip 32-bit builds
 skip = ["*-win32", "*-manylinux_i686"]
@@ -12,6 +12,11 @@ skip = ["*-win32", "*-manylinux_i686"]
 # where to find it by default.
 [tool.cibuildwheel.windows]
 environment = { CMAKE_PREFIX_PATH='$CONDA/Library', PATH='$CONDA/Library/bin;$PATH' }
+
+# Shapely on Windows is bugged for Python 3.10, so we install it manually
+[[tool.cibuildwheel.overrides]]
+select = "cp310-win_amd64"
+before-test = "pip install https://download.lfd.uci.edu/pythonlibs/x6hvwk7i/Shapely-1.8.0-cp310-cp310-win_amd64.whl"
 
 # Use delvewheel to get DLL depedencies in the wheel on Windows
 before-build = "pip install delvewheel"

@@ -11,6 +11,5 @@ setup(
   packages=['packaide'],
   package_dir={'': 'python'},
   cmake_install_dir='python/packaide',
-  extras_require={"test": ["pytest"]},
   python_requires=">=3.6"
 )
