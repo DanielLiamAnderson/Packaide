@@ -47,7 +47,7 @@ def make_polygon_with_holes(boundary, holes):
   for hole in holes:
     if not hole.is_empty:
       if(isinstance(hole,shapely.geometry.MultiPolygon)):
-        for minihole in list(hole):
+        for minihole in hole.geoms:
           all_holes.append(minihole)
       else:
         all_holes.append(hole)

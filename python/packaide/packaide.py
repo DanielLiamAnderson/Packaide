@@ -156,7 +156,7 @@ def extract_polygons(svg_file, tolerance, offset):
         # Eroding a hole might have split it into multiple smaller holes,
         # so we need to separate them into multiple smaller holes here
         if(isinstance(hole,shapely.geometry.MultiPolygon)):
-          for minihole in list(hole):
+          for minihole in hole.geoms:
             polygon_to_pack_hole = Polygon()
             x, y = minihole.exterior.coords.xy
             for i in range(len(x) - 1):
