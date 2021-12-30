@@ -13,14 +13,14 @@ skip = ["*-win32", "*-manylinux_i686"]
 [tool.cibuildwheel.windows]
 environment = { CMAKE_PREFIX_PATH='$CONDA/Library', PATH='$CONDA/Library/bin;$PATH' }
 
+# Use delvewheel to get DLL depedencies in the wheel on Windows
+before-build = "pip install delvewheel"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path='$CONDA/Library/bin'"
+
 # Shapely on Windows is bugged for Python 3.10, so we install it manually
 [[tool.cibuildwheel.overrides]]
 select = "cp310-win_amd64"
 before-test = "pip install https://download.lfd.uci.edu/pythonlibs/x6hvwk7i/Shapely-1.8.0-cp310-cp310-win_amd64.whl"
-
-# Use delvewheel to get DLL depedencies in the wheel on Windows
-before-build = "pip install delvewheel"
-repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --add-path='$CONDA/Library/bin'"
 
 # Install CGAL before building wheels on Linux. This is necessary
 # because the wheels are built inside a docker container, which
