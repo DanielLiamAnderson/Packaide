@@ -16,7 +16,7 @@ jobs:
         config:
         - { os: ubuntu-latest }
         - { os: macos-latest }
-        - { os: windows-latest, prefix_path: "C:/Miniconda/Library", lib_path: "C:/Miniconda/Library/bin" }
+        - { os: windows-latest, prefix_path: "C:/Miniconda/Library", lib_path: "C:/Miniconda/Library/bin;C:/Miniconda/Library/lib" }
         py_version: ['3.6', '3.10']
     steps:
       - uses: actions/checkout@v2
@@ -42,12 +42,12 @@ jobs:
         run: $CONDA/condabin/conda.bat install -y -c conda-forge cgal-cpp geos
 
       - name: Install Python libraries
-        run: pip install --user -r requirements.txt
+        run: PATH=$PATH:${{ matrix.config.lib_path }} pip install --user -r requirements.txt
 
       - name: Configure
         run: |
           mkdir build && cd build
-          PYTHONPATH=${{ matrix.config.lib_path }} cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
+          PATH=$PATH:${{ matrix.config.lib_path }} PYTHONPATH=${{ matrix.config.lib_path }} cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_PREFIX_PATH=${{ matrix.config.prefix_path }} ..
 
       - name: Build
         run: |
