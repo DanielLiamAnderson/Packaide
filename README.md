@@ -49,7 +49,6 @@ On a recent Ubuntu distro, a minimal set of commands that should get you going, 
 ```
 sudo apt install libcgal-dev
 python3 -m pip install -r requirements.txt
-
 ```
 
 #### Getting started on MacOS
@@ -59,7 +58,6 @@ On MacOS, assuming you have a C++ compiler and recent version of Python3 with Pi
 ```
 brew install cgal geos
 python -m pip install -r requirements.txt
-
 ```
 
 #### Getting started on Windows
@@ -205,5 +203,5 @@ cmake --build . --target plots
 The first target executes a set of timing benchmarks that measures the speed of the packing on a set
 of input files with respect to the number of input shapes, both with and without persistence enabled.
 The second target takes the output of the first benchmarks and produces a plot of this data. You should
-find the plot in the `benchmarks/output` directory inside the configured CMake build.
+find the plot in the `benchmark/output` directory inside the configured CMake build.
 

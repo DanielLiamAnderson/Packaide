@@ -70,7 +70,9 @@ jobs:
         run: sudo apt-get -qq install libcgal-dev
         
       - name: Install Python libraries
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install matplotlib
 
       - name: Configure
         run: |
@@ -89,8 +91,7 @@ jobs:
           cmake --build . --target plots
           
       - name: Tar benchmark results
-        run: |
-          tar -cf benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar ./benchmarks/output/*
+        run: tar -cf benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar ./benchmark/output/*
           
       - name: Upload benchmark results
         uses: actions/upload-artifact@v3

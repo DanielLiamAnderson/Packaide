@@ -73,6 +73,5 @@ if (NOT SKBUILD)
     ${CMAKE_CTEST_COMMAND} -C ${CMAKE_BUILD_TYPE} --no-tests=error --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR} --timeout=120
   )
-  add_dependencies(check _packaide)
 
 endif()
