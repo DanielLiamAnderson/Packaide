@@ -91,13 +91,13 @@ jobs:
           cmake --build . --target plots
           
       - name: Tar benchmark results
-        run: tar -cf benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar ./benchmark/output/*
+        run: tar -cf benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar ./build/benchmark/output/*
           
       - name: Upload benchmark results
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report
-          path: build/benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar
+          path: benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar
 
   install:
     name: Install with Python ${{ matrix.py_version }} on ${{ matrix.config.os }}
