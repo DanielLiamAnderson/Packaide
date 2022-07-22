@@ -108,7 +108,6 @@ Polygon_with_holes_2 nfp(
     packaide::State& state
   )
 {
-  packaide::NFPCacheKeyHasher kh;
   packaide::NFPCacheKey key(poly_A, poly_B, rotate_A, rotate_B);
   Polygon_with_holes_2 nfp;
 

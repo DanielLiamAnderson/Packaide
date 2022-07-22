@@ -37,12 +37,12 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake --build .
+          cmake --build . --config ${{ matrix.build_type }}
 
       - name: Test
         run: |
           cd build
-          cmake --build . --target check
+          cmake --build . --target check --config ${{ matrix.build_type }}
 
 
   benchmark:
@@ -82,13 +82,13 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake --build .
+          cmake --build . --config ${{ matrix.build_type }}
 
       - name: Benchmark
         run: |
           cd build
-          cmake --build . --target benchmarks
-          cmake --build . --target plots
+          cmake --build . --target benchmarks --config ${{ matrix.build_type }}
+          cmake --build . --target plots --config ${{ matrix.build_type }}
           
       - name: Upload benchmark results
         uses: actions/upload-artifact@v3
@@ -129,3 +129,9 @@ jobs:
       - name: Verify installation
         run: |
           python -c 'import packaide'
+          
+      - name: Test installation
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --target check-installed --config Release

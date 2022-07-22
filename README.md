@@ -64,8 +64,8 @@ python -m pip install -r requirements.txt
 
 On Windows, by far the easiest option is to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/) and then simply follow the Ubuntu instructions.
 
-If you really must build it in native Windows, you have a few options to get things started. The easiest way to install CGAL on Windows is
-using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you
+If you really must build it in native Windows, you have a few options to get things started. The easiest way is
+using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) to install CGAL if you
 prefer, but this may require you to tweak some settings on your part. With Conda installed, you can [install CGAL](https://anaconda.org/conda-forge/cgal)
 and the Python depdendencies with
 
@@ -74,7 +74,7 @@ conda.bat install -c conda-forge cgal-cpp
 python -m pip install -r requirements.txt
 ```
 
-You will either need Conda to be on your `PATH` for this to work, or will need to run it from an
+For the best results, you should run this from inside an
 [activated Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).
 You should also set the environment variable `CONDA` to point to the root of your Conda installation, since this will help
 the installation script locate where you have installed it.
@@ -185,13 +185,13 @@ environment variable to point to your Conda installation, as suggested earlier.
 With the build configured, you can then compile the library by writing
 
 ```
-cmake --build .
+cmake --build . --config Debug
 ```
 
 Once built, you can test the library by running
 
 ```
-cmake --build . --target check
+cmake --build . --target check --config Debug
 ```
 
 which will run several example inputs and validate that the library correctly finds a valid packing for each of them.
@@ -205,6 +205,12 @@ mkdir -p build/Release && cd build/Release
 cmake -DCMAKE_BUILD_TYPE="Release" ../..
 ```
 
+With the build configured, you can then compile the library by writing
+
+```
+cmake --build . --config Release
+```
+
 To create the benchmark plots, you'll need an additional Python library. Specifically, you will want to install [Matplotlib](https://matplotlib.org
 ). You can do this via Pip by writing 
 
@@ -215,8 +221,8 @@ python3 -m pip install --user matplotlib
 To run the benchmarks and produce the pots, execute the following pair of targets
 
 ```
-cmake --build . --target benchmarks
-cmake --build . --target plots
+cmake --build . --target benchmarks --config Release
+cmake --build . --target plots --config Release
 ```
 
 The first target executes a set of timing benchmarks that measures the speed of the packing on a set

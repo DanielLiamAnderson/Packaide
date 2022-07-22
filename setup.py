@@ -10,6 +10,7 @@ setup(
   license='GPL',
   packages=['packaide'],
   package_dir={'': 'python'},
+  cmake_args=['-DCMAKE_BUILD_TYPE=Release'],
   cmake_install_dir='python/packaide',
   python_requires=">=3.6"
 )
