@@ -32,15 +32,15 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 
 ## Requirements
 
-To build Packaide, you will need the following
+To build and install Packaide, you will need the following
 
-* A modern C++(17) compiler. GCC 7 and Clang 5 should be sufficient, but newer doesn't hurt. 
-* `Python 3.6+` You might need to upgrade your Python version if it is lower than this. You should also install [Pip](https://pip.pypa.io/en/stable/).
-* `CMake 3.0+` and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/). If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
+* A modern C++(17) compiler. GCC 7+, Clang 5+, and MSVC 2019+ should be sufficient, but newer doesn't hurt. 
+* `Python 3.6+`. You should also install [Pip](https://pip.pypa.io/en/stable/).
 * `CGAL` Available in various package managers. See [CGAL](https://www.cgal.org/index.html)
 * Various Python packages, listed in `requirements.txt` (can be automatically installed using Pip)
 
-Packaide is developed and thoroughly tested on Ubuntu, but should also work on MacOS, and probably but not guaranteed to work on Windows. I'll assume that you are comfortable installing a C++ compiler, CMake, and a version of Python3 with Pip. With these, the following instructions should help you install any remaining dependencies.
+Packaide is developed and thoroughly tested on Ubuntu, but should also work on MacOS and Windows. I'll assume that you are comfortable
+installing a C++ compiler and Python. With these, the following instructions should help you install the remaining dependencies.
 
 #### Getting started on Ubuntu
 
@@ -53,7 +53,7 @@ python3 -m pip install -r requirements.txt
 
 #### Getting started on MacOS
 
-On MacOS, assuming you have a C++ compiler and recent version of Python3 with Pip, you should be able to get up and running with
+On MacOS, with a recent version of Python3 with Pip, you should be able to get up and running with
 
 ```
 brew install cgal geos
@@ -74,20 +74,22 @@ conda.bat install -c conda-forge cgal-cpp
 python -m pip install -r requirements.txt
 ```
 
-You will need Conda to be on your `PATH` for this to work, and should also set the environment variable `CONDA` to point to the
-root of your Conda installation, since this will help the installation script locate where you have installed it.
+You will either need Conda to be on your `PATH` for this to work, or will need to run it from an
+[activated Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).
+You should also set the environment variable `CONDA` to point to the root of your Conda installation, since this will help
+the installation script locate where you have installed it.
 
 ## Installing Packaide
 
 If you are just looking to install the library to use it, rather than to play around with and edit the code,
 the easiest way is to use the provided installation script. If all of the dependencies have been correctly
-installed, on Ubuntu, you should be able to install it with
+installed, you should be able to install it with
 
 ```
-python3 -m pip install --user .
+python -m pip install --user .
 ```
 
-On MacOS and Windows, you should replace `python3` with just `python`.
+(On Ubuntu, you may have to replace `python` with `python3`).
 
 
 ## Using Packaide
@@ -158,7 +160,13 @@ The `pack` function takes, at minimum, a list of sheets represented as SVG docum
 
 ## Building for Development
 
-If you'd like to play around with the code and make modifications, the following instructions will help you build the project from source and run the provided tests and benchmarks. To build Packaide from source, you must first initialize the CMake build. It is good practice to have seperate Debug and Release builds, one for testing and one for benchmarking. If you are not familar with CMake, I recommend reading [this tutorial](https://cliutils.gitlab.io/modern-cmake/) at some point.
+If you'd like to play around with the code and make modifications, the following instructions will help you build the project from source and run
+the provided tests and benchmarks. You'll need to follow the [previous instructions]((#requirements) for installing the library requirements, and install
+[CMake](https://cmake.org/) and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/).
+
+To build Packaide from source, you must first initialize the CMake build. It is good practice to have seperate Debug and Release builds, one
+for testing and one for benchmarking. If you are not familar with CMake, I recommend reading [this tutorial](https://cliutils.gitlab.io/modern-cmake/) at
+some point.
 
 ### Testing
 
@@ -169,7 +177,10 @@ mkdir -p build/Debug && cd build/Debug
 cmake -DCMAKE_BUILD_TYPE="Debug" ../..
 ```
 
-On Linux, this should be sufficient. If you are working on Windows and you installed CGAL via Conda, it might not be located automatically by CMake, so you may need to supply the installation location via the flag `-DCMAKE_PREFIX_PATH="$CONDA/Library"`. You should also make sure that `$CONDA/Library/bin` is on your system PATH.
+On Linux and MacOS, this should be sufficient. If you are working on Windows and you installed CGAL via Conda, it might not be located automatically
+by CMake, so you may need to tell CMake where to find it via the flag `-DCMAKE_PREFIX_PATH="$CONDA/Library"`. You should also make sure
+that `$CONDA/Library/bin` is on your system PATH, or you are running inside an activated Conda environment. This assumes you have set the `CONDA`
+environment variable to point to your Conda installation, as suggested earlier.
 
 With the build configured, you can then compile the library by writing
 

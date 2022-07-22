@@ -90,14 +90,11 @@ jobs:
           cmake --build . --target benchmarks
           cmake --build . --target plots
           
-      - name: Tar benchmark results
-        run: tar -cf benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar ./build/benchmark/output/*
-          
       - name: Upload benchmark results
         uses: actions/upload-artifact@v3
         with:
           name: benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}
-          path: benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar
+          path: ./build/benchmark/output/*
 
   install:
     name: Install with Python ${{ matrix.py_version }} on ${{ matrix.config.os }}
