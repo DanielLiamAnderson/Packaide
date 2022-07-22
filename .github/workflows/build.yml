@@ -133,5 +133,5 @@ jobs:
       - name: Test installation
         run: |
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release
+          cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build . --target check-installed --config Release
