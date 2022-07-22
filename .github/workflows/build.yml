@@ -14,6 +14,7 @@ jobs:
         build_type: ['Debug', 'RelWithDebInfo', 'Release']
         config:
         - { os: ubuntu-latest }
+        - { os: macos-latest }
         py_version: ['3.6', '3.10']
     steps:
       - uses: actions/checkout@v2
@@ -23,8 +24,16 @@ jobs:
         with:
           python-version: ${{ matrix.py_version }}
 
-      - name: Install CGAL
+      # Use apt to install CGAL on Ubuntu
+      - name: Install CGAL (Linux)
+        if: startsWith(matrix.config.os, 'ubuntu')
         run: sudo apt-get -qq install libcgal-dev
+
+      # Use Homebrew to install CGAL on Mac (we also install Geos since Shapely is missing
+      # the wheel for 3.10, but Shapely can compile itself if Geos is installed)
+      - name: Install CGAL (Mac)
+        if: startsWith(matrix.config.os, 'macos')
+        run: brew install cgal geos
 
       - name: Install Python libraries
         run: pip install -r requirements.txt
