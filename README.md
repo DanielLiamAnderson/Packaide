@@ -12,7 +12,7 @@ Packaide was developed as part of the research project, Fabricaide, a system tha
 
 ## What is it?
 
-Packaide is a library for 2D nesting. Given a set of shapes, and a set of sheets on which to place them, the nesting problem is to find an overlap-free arrangement of the shapes onto the sheets. This problem arises frequently in fabrication and manufacturing. Packaide was designed to prioritize speed over optimiality, so it employs fast heuristics and careful engineering to achieve good quality packings in a fraction of the time of similar libraries.
+Packaide is a library for 2D nesting. Given a set of shapes, and a set of sheets on which to place them, the nesting problem is to find an overlap-free arrangement of the shapes onto the sheets. This problem arises frequently in fabrication and manufacturing. Packaide was designed to prioritize speed over optimality, so it employs fast heuristics and careful engineering to achieve good quality packings in a fraction of the time of similar libraries.
 
 It is implemented as a Python library, supported under the hood by a nesting engine written in C++ that uses the powerful [CGAL](https://www.cgal.org/) library for speedy and robust computational geometry primitives. The corresponding front-end tool, Fabricaide, which was the motivation behind designing Packaide, can be found [here](https://github.com/tichaesque/Fabricaide).
 
@@ -20,7 +20,7 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 
 To build Packaide, you will need the following
 
-* A modern C++ compiler. GCC 7 and Clang 5 should be sufficient, but newer doesn't hurt. 
+* A modern C++(17) compiler. GCC 7 and Clang 5 should be sufficient, but newer doesn't hurt. 
 * `CMake 3.13+` and a compatible build tool, e.g., Make or Ninja. If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
 * `Python 3.6+` You might need to upgrade your Python version if it is lower than this.
 * `CGAL` Probably in your package manager. See [CGAL](https://www.cgal.org/index.html)
