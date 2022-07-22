@@ -56,7 +56,7 @@ if __name__ == "__main__":
       shapes_to_pack = shapes_svg_root.cloneNode(False)
 	      
       with open(os.path.join(OUTPUT_DIR, os.path.splitext(os.path.basename(test_set))[0]) + '_nocache.txt', 'w') as f_out:
-	      for i in range(10):#len(shapes)):
+	      for i in range(len(shapes)):
 		      shapes_to_pack.appendChild(shapes[i].cloneNode(False))
 		      start_time = time.time()
 		      packing, successes, fails = packaide.pack([sheet], shapes_to_pack.toxml(), tolerance = 2.5, offset = 5, partial_solution = False, rotations = 1, persist = False)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
       with open(os.path.join(OUTPUT_DIR, os.path.splitext(os.path.basename(test_set))[0]) + '_cache.txt', 'w') as f_out:
 	      # Pack the first i shapes. The previous i-1 shapes will still be in the cache!
-	      for i in range(10):#len(shapes)):
+	      for i in range(len(shapes)):
 		      shapes_to_pack.appendChild(shapes[i].cloneNode(False))
 		      start_time = time.time()
 		      packing, successes, fails = packaide.pack([sheet], shapes_to_pack.toxml(), tolerance = 2.5, offset = 5, partial_solution = False, rotations = 1, persist = True, custom_state = state)

@@ -64,16 +64,24 @@ python -m pip install -r requirements.txt
 
 On Windows, by far the easiest option is to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/) and then simply follow the Ubuntu instructions.
 
-If you really must build it in native Windows, you have a few options to get things started. The easiest way to install CGAL on Windows is using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you prefer. With Conda installed, you can [install CGAL](https://anaconda.org/conda-forge/cgal) and the Python depdendencies with
+If you really must build it in native Windows, you have a few options to get things started. The easiest way to install CGAL on Windows is
+using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you
+prefer, but this may require you to tweak some settings on your part. With Conda installed, you can [install CGAL](https://anaconda.org/conda-forge/cgal)
+and the Python depdendencies with
 
 ```
-conda install -c conda-forge cgal-cpp
+conda.bat install -c conda-forge cgal-cpp
 python -m pip install -r requirements.txt
 ```
 
+You will need Conda to be on your `PATH` for this to work, and should also set the environment variable `CONDA` to point to the
+root of your Conda installation, since this will help the installation script locate where you have installed it.
+
 ## Installing Packaide
 
-If you are just looking to install the library to use it, rather than to play around with and edit the code, the easiest way is to use the provided installation script. If all of the dependencies have been correctly installed, on Ubuntu, you should be able to install it with
+If you are just looking to install the library to use it, rather than to play around with and edit the code,
+the easiest way is to use the provided installation script. If all of the dependencies have been correctly
+installed, on Ubuntu, you should be able to install it with
 
 ```
 python3 -m pip install --user .
@@ -202,6 +210,6 @@ cmake --build . --target plots
 
 The first target executes a set of timing benchmarks that measures the speed of the packing on a set
 of input files with respect to the number of input shapes, both with and without persistence enabled.
-The second target takes the output of the first benchmarks and produces a plot of this data. You should
-find the plot in the `benchmark/output` directory inside the configured CMake build.
+The second target takes the output of the first benchmarks and produces a plot of this data. You can
+find the plot (and the raw data) in the `benchmark/output` directory inside the configured CMake build.
 

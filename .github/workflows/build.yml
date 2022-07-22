@@ -96,7 +96,7 @@ jobs:
       - name: Upload benchmark results
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage-report
+          name: benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}
           path: benchmarks-${{ matrix.config.os }}-${{ matrix.build_type }}-python${{ matrix.py_version }}.tar
 
   install:
