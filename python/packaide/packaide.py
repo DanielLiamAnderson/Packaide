@@ -204,53 +204,104 @@ def flatten_shape(doc, element):
 #                                 Packaide interface
 
 
-# Given a set of sheets and a set of shapes, pack the given shapes onto the given sheets
-#
-# Required Parameters:
-#  sheet_svgs: A list of svg document strings that represent the sheets.
-#              Shapes on this sheet represent the holes that are to be 
-#              avoided when placing the new parts.
-#
-#  shapes: An svg document string that represents the shapes to pack onto
-#          the given sheets. Shapes should represent closed paths. Non-closed
-#          or empty shapes will be ignored. Shapes that contain holes will
-#          be handled, and support part-in-part nesting, i.e., a shape being
-#          placed inside the hole of another.
-#
-# The svg document strings must have a valid viewport set, since this is used to
-# infer the size of the sheets.
-#
-# Optional Parameters:
-#  offset: The amount of spacing between adjacent polygons in the packing
-#
-#  tolerance: An amount by which shapes may be distorted when approximated as
-#             polygons. Shapes will always be overapproximated, so the resulting
-#             packing should never contain overlaps. Smaller tolerance will
-#             require a greater time to pack, but will allow for more tight
-#             packings for parts that could potentially interlock to save space.
-#
-#  partial_solution: If True, a partial solution will be returned if a feasible
-#                    packing for all parts is not found. That is, a solution in
-#                    which only some of the shapes have been placed. If False,
-#                    the solution will only be returned if it can place all shapes.
-#
-#  rotations: The number of rotations of shapes to consider. 1 rotation means only
-#             use the shape as it is in the given svg document. Additional rotations
-#             are chosen uniformly spaced from 0 to 360 degrees.
-#
-#  persist: If true, cache information from the packing to speed up future packing
-#           computations that contain some or many of the same shapes. Note that
-#           this will use additional memory, so should be avoided for long-running
-#           applications.
-#
-#  custom_state: Allows using a custom persistent state to control how persistence.
-#
-# Returns: A triple consisting of the solution, the number of placed parts, and the
-#          number of parts that could not be placed
-#
-# Solution format:
-#
 def pack(sheet_svgs, shapes, offset = 1, tolerance = 1, partial_solution = False, rotations = 4, persist = True, custom_state = None):
+  '''
+  Given a set of sheets and a set of shapes, pack the given shapes onto the given sheets
+
+   Required Parameters:
+    sheet_svgs: A list of svg document strings that represent the sheets.
+                Shapes on this sheet represent the holes that are to be
+                avoided when placing the new parts.
+
+    shapes: An svg document string that represents the shapes to pack onto
+            the given sheets. Shapes should represent closed paths. Non-closed
+            or empty shapes will be ignored. Shapes that contain holes will
+            be handled, and support part-in-part nesting, i.e., a shape being
+            placed inside the hole of another.
+
+   The svg document strings must have a valid viewport set, since this is used to
+   infer the size of the sheets.
+
+   Optional Parameters:
+    offset: The amount of spacing between adjacent polygons in the packing
+
+    tolerance: An amount by which shapes may be distorted when approximated as
+               polygons. Shapes will always be overapproximated, so the resulting
+               packing should never contain overlaps. Smaller tolerance will
+               require a greater time to pack, but will allow for more tight
+               packings for parts that could potentially interlock to save space.
+
+    partial_solution: If True, a partial solution will be returned if a feasible
+                      packing for all parts is not found. That is, a solution in
+                      which only some of the shapes have been placed. If False,
+                      the solution will only be returned if it can place all shapes.
+
+    rotations: The number of rotations of shapes to consider. 1 rotation means only
+               use the shape as it is in the given svg document. Additional rotations
+               are chosen uniformly spaced from 0 to 360 degrees.
+
+    persist: If true, cache information from the packing to speed up future packing
+             computations that contain some or many of the same shapes. Note that
+             this will use additional memory, so should be avoided for long-running
+             applications.
+
+    custom_state: Allows using a custom persistent state to control how persistence.
+
+   Returns: A triple consisting of the solution, the number of placed parts, and the
+            number of parts that could not be placed
+
+   Solution format: The solution is output as a list of pairs (i, sheet), where i is
+                    the index of a sheet, and sheet is a string representation of an
+                    SVG file containing the parts that were placed onto sheet i
+
+  A complete example usage is as follows.
+
+    import packaide
+
+    # Shapes are provided in SVG format
+    shapes = """
+    <svg viewBox="0 0 432.13 593.04">
+      <rect width="100" height="50" />
+      <rect width="50" height="100" />
+      <ellipse rx="20" ry="20" />
+    </svg>
+    """
+
+    # The target sheet / material is also represented as an SVG
+    # document. Shapes given on the sheet are interpreted as
+    # holes that must be avoided when placing new parts. In this
+    # case, a square in the upper-left-hand corner.
+    sheet = """
+    <svg width="300" height="300" viewBox="0 0 300 300">
+      <rect x="0" y="0" width="100" height="100" />
+    </svg>
+    """
+
+    # Attempts to pack as many of the parts as possible.
+    result, placed, fails = packaide.pack(
+      [sheet],                  # A list of sheets (SVG documents)
+      shapes,                   # An SVG document containing the parts
+      tolerance = 2.5,          # Discretization tolerance
+      offset = 5,               # The offset distance around each shape (dilation)
+      partial_solution = True,  # Whether to return a partial solution
+      rotations = 1,            # The number of rotations of parts to try
+      persist = True            # Cache results to speed up next run
+    )
+
+    # If partial_solution was False, then either every part is placed or none
+    # are. Otherwise, as many as possible are placed. placed and fails denote
+    # the number of parts that could be and could not be placed respectively
+    print("{} parts were placed. {} parts could not fit on the sheets".format(placed, fails))
+
+    # The results are given by a list of pairs (i, out), where
+    # i is the index of the sheet on which shapes were packed, and
+    # out is an SVG representation of the parts that are to be
+    # placed on that sheet.
+    for i, out in result:
+      with open('result_sheet_{}.svg'.format(i), 'w') as f_out:
+        f_out.write(out)
+
+  '''
 
   # Use the global persistent state, or a blank state if no persistence
   state = custom_state if persist and custom_state is not None else persistent_state if persist else State()

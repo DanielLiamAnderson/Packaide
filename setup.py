@@ -2,7 +2,7 @@ from skbuild import setup
 
 setup(
   name='Packaide',
-  version='1.0',
+  version='2.0',
   description='Fast and robust 2D nesting',
   author='Daniel Anderson & Adrian Sy',
   author_email='dlanders@cs.cmu.edu',

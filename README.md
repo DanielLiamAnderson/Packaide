@@ -1,5 +1,7 @@
 # Packaide
 
+[![Build status](https://github.com/DanielLiamAnderson/Packaide/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DanielLiamAnderson/Packaide/actions) [![License: GPL3](https://img.shields.io/badge/License-GPL-blue.svg)](https://opensource.org/licenses/GPL-3.0)
+
 A library for fast and robust 2D nesting of SVG shapes.
 
 ### Acknowledgements
@@ -9,6 +11,18 @@ Packaide was developed as part of the research project, Fabricaide, a system tha
 > **Fabricaide: Fabrication-Aware Design for 2D Cutting Machines**<br />
 > Ticha Sethapakdi, Daniel Anderson, Adrian Reginald Chua Sy, Stefanie Mueller<br />
 > Proceedings of the 2021 ACM CHI Conference on Human Factors in Computing Systems, 2021
+
+## Table of contents
+
+- [What is it?](#what-is-it)
+- [Requirements](#requirements)
+- [Installing Packaide](#installing-packaide)
+- [Using Packaide](#using-packaide)
+  - [Input / Output format](#input--output-format)
+  - [Parameters](#parameters)
+- [Building for Development](#building-for-development)
+  - [Testing](#testing)
+  - [Benchmarking](#benchmarking)
 
 ## What is it?
 
@@ -21,21 +35,54 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 To build Packaide, you will need the following
 
 * A modern C++(17) compiler. GCC 7 and Clang 5 should be sufficient, but newer doesn't hurt. 
-* `CMake 3.13+` and a compatible build tool, e.g., Make or Ninja. If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
-* `Python 3.6+` You might need to upgrade your Python version if it is lower than this.
-* `CGAL` Probably in your package manager. See [CGAL](https://www.cgal.org/index.html)
+* `Python 3.6+` You might need to upgrade your Python version if it is lower than this. You should also install [Pip](https://pip.pypa.io/en/stable/).
+* `CMake 3.0+` and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/). If the version in your package manager is too old, install it from [CMake](https://cmake.org/download/).
+* `CGAL` Available in various package managers. See [CGAL](https://www.cgal.org/index.html)
+* Various Python packages, listed in `requirements.txt` (can be automatically installed using Pip)
 
-## Building and installing
+Packaide is developed and thoroughly tested on Ubuntu, but should also work on MacOS, and probably but not guaranteed to work on Windows. I'll assume that you are comfortable installing a C++ compiler, CMake, and a version of Python3 with Pip. With these, the following instructions should help you install any remaining dependencies.
 
-The minimal steps to build Packaide from source on a Nix system using CMake with Make are
+#### Getting started on Ubuntu
+
+On a recent Ubuntu distro, a minimal set of commands that should get you going, assuming you have an appropriate version of Python3 with Pip, are
 
 ```
-mkdir build && cd build
-cmake ..
-make
+sudo apt install libcgal-dev
+python3 -m pip install -r requirements.txt
+
 ```
 
-Once built, you can test the library by running `make check`, which will run several example inputs and validate that the library correctly finds a valid packing for each of them. To install the library, run `sudo make install`. You can then write `make check-installed` to run the tests again, but using the installed library, to ensure that it installed correctly.
+#### Getting started on MacOS
+
+On MacOS, assuming you have a C++ compiler and recent version of Python3 with Pip, you should be able to get up and running with
+
+```
+brew install cgal geos
+python -m pip install -r requirements.txt
+
+```
+
+#### Getting started on Windows
+
+On Windows, by far the easiest option is to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/) and then simply follow the Ubuntu instructions.
+
+If you really must build it in native Windows, you have a few options to get things started. The easiest way to install CGAL on Windows is using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you prefer. With Conda installed, you can [install CGAL](https://anaconda.org/conda-forge/cgal) and the Python depdendencies with
+
+```
+conda install -c conda-forge cgal-cpp
+python -m pip install -r requirements.txt
+```
+
+## Installing Packaide
+
+If you are just looking to install the library to use it, rather than to play around with and edit the code, the easiest way is to use the provided installation script. If all of the dependencies have been correctly installed, on Ubuntu, you should be able to install it with
+
+```
+python3 -m pip install --user .
+```
+
+On MacOS and Windows, you should replace `python3` with just `python`.
+
 
 ## Using Packaide
 
@@ -99,21 +146,64 @@ The `pack` function takes, at minimum, a list of sheets represented as SVG docum
 
 * **tolerance**: The tolerable error amount by which curves may be approximated by straight lines when simplifying the discretized shapes. Note that Packaide always dilates polygons after discretization to ensure that they are never underapproximations of the original shapes, as this could lead to overlap.
 * **offset**: An additional amount by which to dilate each discretized polygon before packing them. This parameter can be used to guarantee some minimum distance between each placed polygon.
-* **partial_solution**: If True, the result returned may contain only some of input shapes if not all of them would fit. If False, the solution will either contain all of the input shapes, or none of them at all if they can not all fit.
+* **partial_solution**: If True, the result returned may contain only some of the input shapes if not all of them would fit. If False, the solution will either contain all of the input shapes, or none of them at all if they can not all fit.
 * **rotations**: The number of rotations to try for each part. Note that one rotation means the shapes original orientation is the only one considered. It does not mean one additional rotation. Additional rotations are spaced unformly from 0 to 360 degrees. E.g., using two rotations tries 0 degrees (no change), and a 180 degree rotation.
 * **persist**: If True, some information from the computation will be cached and used to speed up future runs that contain some of the same shapes. This will use increasing amounts of memory. To control persistence more tightly and limit memory consumption, a `State` object can be passed to the additional `custom_state` parameter, such that a computation given a particular state will reuse information from previous computations that used that same state.
 
+## Building for Development
 
-## Benchmarks
+If you'd like to play around with the code and make modifications, the following instructions will help you build the project from source and run the provided tests and benchmarks. To build Packaide from source, you must first initialize the CMake build. It is good practice to have seperate Debug and Release builds, one for testing and one for benchmarking. If you are not familar with CMake, I recommend reading [this tutorial](https://cliutils.gitlab.io/modern-cmake/) at some point.
 
-To benchmark the library's performance after building it, you can write
+### Testing
+
+You can initialize a Debug (testing) CMake build from a bash shell in the project root directory like so
 
 ```
-make benchmarks
-make plots
+mkdir -p build/Debug && cd build/Debug
+cmake -DCMAKE_BUILD_TYPE="Debug" ../..
+```
+
+On Linux, this should be sufficient. If you are working on Windows and you installed CGAL via Conda, it might not be located automatically by CMake, so you may need to supply the installation location via the flag `-DCMAKE_PREFIX_PATH="$CONDA/Library"`. You should also make sure that `$CONDA/Library/bin` is on your system PATH.
+
+With the build configured, you can then compile the library by writing
+
+```
+cmake --build .
+```
+
+Once built, you can test the library by running
+
+```
+cmake --build . --target check
+```
+
+which will run several example inputs and validate that the library correctly finds a valid packing for each of them.
+
+### Benchmarking
+
+To benchmark the library's performance, you should create a Release build. The following, similar to the above, should do the trick.
+
+```
+mkdir -p build/Release && cd build/Release
+cmake -DCMAKE_BUILD_TYPE="Release" ../..
+```
+
+To create the benchmark plots, you'll need an additional Python library. Specifically, you will want to install [Matplotlib](https://matplotlib.org
+). You can do this via Pip by writing 
+
+```
+python3 -m pip install --user matplotlib
+```
+
+To run the benchmarks and produce the pots, execute the following pair of targets
+
+```
+cmake --build . --target benchmarks
+cmake --build . --target plots
 ```
 
 The first target executes a set of timing benchmarks that measures the speed of the packing on a set
 of input files with respect to the number of input shapes, both with and without persistence enabled.
-The second target takes the output of the first benchmarks and produces a plot of this data.
+The second target takes the output of the first benchmarks and produces a plot of this data. You should
+find the plot in the `benchmarks/output` directory inside the configured CMake build.
 

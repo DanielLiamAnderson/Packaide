@@ -2,14 +2,14 @@
 #                       Build system for Packaide
 # -------------------------------------------------------------------
 # Requirements:
-#   - CMake version 3.13+
+#   - CMake version 3.0+
 #   - A C++17 compiler
 #   - CGAL
 #   - Python 3.6+
 # -------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.13)
-project(Packaide VERSION 1.0
+cmake_minimum_required(VERSION 3.0)
+project(Packaide VERSION 2.0
              DESCRIPTION "Fast and robust 2D nesting"
              LANGUAGES CXX)
 
