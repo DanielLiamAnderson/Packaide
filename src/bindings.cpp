@@ -1,4 +1,4 @@
-// Python bindings for Packaide using Boost Python
+// Python bindings for Packaide using Pybind
 
 #include <iterator>
 #include <utility>
