@@ -148,7 +148,7 @@ struct CandidatePoints {
 
     // If there is a boundary for the container, then the candidate points are the boundaries
     // of the inner fit polygon minus (set difference) the union of the no fit polygons
-    if(has_boundary){
+    if (has_boundary) {
 
       // Important: CGAL considers an empty polygon with holes to represent the
       // entire plane, not an empty set! So we must treat this as a special case.
@@ -168,8 +168,7 @@ struct CandidatePoints {
       std::vector<Point_2> points;
       for (const auto& pgn : result) {
         points.insert(std::end(points), pgn.outer_boundary().vertices_begin(), pgn.outer_boundary().vertices_end());
-        for (auto it = pgn.holes_begin(); it != pgn.holes_end(); it++) {
-          const auto& hole = *it;
+        for (const auto& hole : pgn.holes()) {
           points.insert(std::end(points), hole.vertices_begin(), hole.vertices_end());
         }
       }
@@ -188,8 +187,7 @@ struct CandidatePoints {
       std::vector<Point_2> points;
       for (const auto& pgn : result) {
         points.insert(std::end(points), pgn.outer_boundary().vertices_begin(), pgn.outer_boundary().vertices_end());
-        for (auto it = pgn.holes_begin(); it != pgn.holes_end(); it++) {
-          const auto& hole = *it;
+        for (const auto& hole : pgn.holes()) {
           points.insert(std::end(points), hole.vertices_begin(), hole.vertices_end());
         }
       }
@@ -204,16 +202,16 @@ struct CandidatePoints {
 // ------------------------------------------------------------------
 
 // Apply a transformation to a polygon with holes
-Polygon_with_holes_2 transform_polygon_with_holes(const Transformation transformation, const Polygon_with_holes_2& pgon){
+Polygon_with_holes_2 transform_polygon_with_holes(const Transformation& transformation, const Polygon_with_holes_2& pgon){
   auto boundary = transform(transformation, pgon.outer_boundary());
   std::vector<Polygon_2> holes;
-  for (auto p = pgon.holes_begin(); p != pgon.holes_end(); ++p){
-    holes.push_back(transform(transformation, *p));
+  for (const auto& hole : pgon.holes()) {
+    holes.push_back(transform(transformation, hole));
   }
-  return Polygon_with_holes_2(boundary, holes.begin(), holes.end());
+  return Polygon_with_holes_2(boundary,
+    std::make_move_iterator(holes.begin()), std::make_move_iterator(holes.end()));
 }
 
 }  // namespace packaide
 
 #endif  // PACKAIDE_PRIMITIVES_HPP_
-
