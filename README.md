@@ -160,13 +160,14 @@ The `pack` function takes, at minimum, a list of sheets represented as SVG docum
 
 ## Building for Development
 
-If you'd like to play around with the code and make modifications, the following instructions will help you build the project from source and run
-the provided tests and benchmarks. You'll need to follow the [previous instructions]((#requirements) for installing the library requirements, and install
+If you'd like to play around with the code and make modifications, the following instructions will help you manually build the project from source and run
+the provided tests and benchmarks. You'll need to follow the [previous instructions](#requirements) for installing the library requirements, and install
 [CMake](https://cmake.org/) and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/).
 
 To build Packaide from source, you must first initialize the CMake build. It is good practice to have seperate Debug and Release builds, one
 for testing and one for benchmarking. If you are not familar with CMake, I recommend reading [this tutorial](https://cliutils.gitlab.io/modern-cmake/) at
-some point.
+some point. If you are on Windows, doing all of this from your activated Conda environment is recommended since it will make it
+easier for CMake to find where Conda and hence CGAL are installed. If not, you may need to fiddle with some environment variables and extra flags.
 
 ### Testing
 
@@ -176,11 +177,6 @@ You can initialize a Debug (testing) CMake build from a bash shell in the projec
 mkdir -p build/Debug && cd build/Debug
 cmake -DCMAKE_BUILD_TYPE="Debug" ../..
 ```
-
-On Linux and MacOS, this should be sufficient. If you are working on Windows and you installed CGAL via Conda, it might not be located automatically
-by CMake, so you may need to tell CMake where to find it via the flag `-DCMAKE_PREFIX_PATH="$CONDA/Library"`. You should also make sure
-that `$CONDA/Library/bin` is on your system PATH, or you are running inside an activated Conda environment. This assumes you have set the `CONDA`
-environment variable to point to your Conda installation, as suggested earlier.
 
 With the build configured, you can then compile the library by writing
 
@@ -230,3 +226,16 @@ of input files with respect to the number of input shapes, both with and without
 The second target takes the output of the first benchmarks and produces a plot of this data. You can
 find the plot (and the raw data) in the `benchmark/output` directory inside the configured CMake build.
 
+# Installing
+
+If you'd like to install your manually configured build, you can run the install target like so
+
+```
+cmake --build . --target install --config Release
+```
+
+Note that if you install your manually configured build, and use the automatic installation script, you
+may end up with two different versions of the library installed in different locations, and which one gets
+loaded will depend on your `PATH` variable... Prefer to only have one version installed at a time. If
+you insist on having multiple installed, you can use the [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)
+environment variable to help pick which one gets loaded.
