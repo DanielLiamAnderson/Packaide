@@ -34,50 +34,47 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 
 To build and install Packaide, you will need the following
 
-* A modern C++(17) compiler. GCC 7+, Clang 5+, and MSVC 2019+ should be sufficient, but newer doesn't hurt. 
-* `Python 3.6+`. You should also install [Pip](https://pip.pypa.io/en/stable/).
-* `CGAL` Available in various package managers. See [CGAL](https://www.cgal.org/index.html)
-* Various Python packages, listed in `requirements.txt` (can be automatically installed using Pip)
+* A modern C++(17) compiler. [GCC](https://gcc.gnu.org/) 7+, [Clang](https://clang.llvm.org/) 5+, and [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) 2019+ should be sufficient, but newer doesn't hurt. 
+* [Python](https://www.python.org/) 3.6+`. You should also install [Pip](https://pip.pypa.io/en/stable/).
+* [CGAL](https://www.cgal.org/index.html). Available in various package managers; see the next section.
 
 Packaide is developed and thoroughly tested on Ubuntu, but should also work on MacOS and Windows. I'll assume that you are comfortable
-installing a C++ compiler and Python. With these, the following instructions should help you install the remaining dependencies.
+installing a C++ compiler and Python. Lastly, you just need to install CGAL, which can be done as follows from various different package managers
+depending on your operating system:
 
-#### Getting started on Ubuntu
+#### Getting CGAL on Ubuntu
 
-On a recent Ubuntu distro, a minimal set of commands that should get you going, assuming you have an appropriate version of Python3 with Pip, are
+On Ubuntu, you can use [APT](https://help.ubuntu.com/community/AptGet/Howto).
 
 ```
 sudo apt install libcgal-dev
-python3 -m pip install -r requirements.txt
 ```
 
-#### Getting started on MacOS
+#### Getting CGAL on MacOS
 
-On MacOS, with a recent version of Python3 with Pip, you should be able to get up and running with
+On MacOS, use [Homebrew](https://brew.sh/).
 
 ```
-brew install cgal geos
-python -m pip install -r requirements.txt
+brew install cgal
 ```
 
-#### Getting started on Windows
+#### Getting CGAL on Windows
 
 On Windows, by far the easiest option is to use [WSL](https://docs.microsoft.com/en-us/windows/wsl/) and then simply follow the Ubuntu instructions.
 
-If you really must build it in native Windows, you have a few options to get things started. The easiest way is
-using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) to install CGAL if you
-prefer, but this may require you to tweak some settings on your part. With Conda installed, you can [install CGAL](https://anaconda.org/conda-forge/cgal)
-and the Python depdendencies with
+If you really must build in native Windows, you have a few options to get things started. The easiest and recomended way is
+using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you
+prefer, but this may require you to tweak some extra settings on your part. With Conda installed, you can
+[install CGAL](https://anaconda.org/conda-forge/cgal) and with
 
 ```
 conda.bat install -c conda-forge cgal-cpp
-python -m pip install -r requirements.txt
 ```
 
 For the best results, you should run this from inside an
-[activated Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment).
-You should also set the environment variable `CONDA` to point to the root of your Conda installation, since this will help
-the installation script locate where you have installed it.
+[activated Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) since it
+will set your environment variables correctly and make everything smoother. You should continue to follow the remaining instructions from inside
+this environment too.
 
 ## Installing Packaide
 
@@ -86,10 +83,10 @@ the easiest way is to use the provided installation script. If all of the depend
 installed, you should be able to install it with
 
 ```
-python -m pip install --user .
+python -m pip install --user . -r -requirements.txt
 ```
 
-(On Ubuntu, you may have to replace `python` with `python3`).
+Depending on your operating system and Python configuration, (e.g., usually on Ubuntu), you may have to replace `python` with `python3`.
 
 
 ## Using Packaide
@@ -161,8 +158,11 @@ The `pack` function takes, at minimum, a list of sheets represented as SVG docum
 ## Building for Development
 
 If you'd like to play around with the code and make modifications, the following instructions will help you manually build the project from source and run
-the provided tests and benchmarks. You'll need to follow the [previous instructions](#requirements) for installing the library requirements, and install
-[CMake](https://cmake.org/) and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/).
+the provided tests and benchmarks. You'll need to follow the [previous instructions](#requirements) for installing the library requirements, and install some
+extra requirements:
+
+* [CMake](https://cmake.org/) and a compatible build tool, e.g., [Make](https://www.gnu.org/software/make/) or [Ninja](https://ninja-build.org/).
+* Packaide's Python depdendencies. Just run `python -m pip install --user -r -requirements.txt`
 
 To build Packaide from source, you must first initialize the CMake build. It is good practice to have seperate Debug and Release builds, one
 for testing and one for benchmarking. If you are not familar with CMake, I recommend reading [this tutorial](https://cliutils.gitlab.io/modern-cmake/) at
