@@ -23,6 +23,7 @@ Packaide was developed as part of the research project, Fabricaide, a system tha
 - [Building for Development](#building-for-development)
   - [Testing](#testing)
   - [Benchmarking](#benchmarking)
+  - [Installing](#installing)
 
 ## What is it?
 
@@ -35,7 +36,7 @@ It is implemented as a Python library, supported under the hood by a nesting eng
 To build and install Packaide, you will need the following
 
 * A modern C++(17) compiler. [GCC](https://gcc.gnu.org/) 7+, [Clang](https://clang.llvm.org/) 5+, and [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) 2019+ should be sufficient, but newer doesn't hurt. 
-* [Python](https://www.python.org/) 3.6+`. You should also install [Pip](https://pip.pypa.io/en/stable/).
+* [Python](https://www.python.org/) 3.6+. You should also install [Pip](https://pip.pypa.io/en/stable/).
 * [CGAL](https://www.cgal.org/index.html). Available in various package managers; see the next section.
 
 Packaide is developed and thoroughly tested on Ubuntu, but should also work on MacOS and Windows. I'll assume that you are comfortable
@@ -65,7 +66,7 @@ On Windows, by far the easiest option is to use [WSL](https://docs.microsoft.com
 If you really must build in native Windows, you have a few options to get things started. The easiest and recomended way is
 using [Conda](https://docs.conda.io/en/latest/). You could also try [using vcpkg](https://doc.cgal.org/latest/Manual/windows.html) if you
 prefer, but this may require you to tweak some extra settings on your part. With Conda installed, you can
-[install CGAL](https://anaconda.org/conda-forge/cgal) and with
+[install CGAL](https://anaconda.org/conda-forge/cgal) with
 
 ```
 conda.bat install -c conda-forge cgal-cpp
@@ -211,7 +212,7 @@ To create the benchmark plots, you'll need an additional Python library. Specifi
 ). You can do this via Pip by writing 
 
 ```
-python3 -m pip install --user matplotlib
+python -m pip install --user matplotlib
 ```
 
 To run the benchmarks and produce the pots, execute the following pair of targets
@@ -226,7 +227,7 @@ of input files with respect to the number of input shapes, both with and without
 The second target takes the output of the first benchmarks and produces a plot of this data. You can
 find the plot (and the raw data) in the `benchmark/output` directory inside the configured CMake build.
 
-# Installing
+### Installing
 
 If you'd like to install your manually configured build, you can run the install target like so
 
