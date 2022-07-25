@@ -2,8 +2,6 @@
 
 [![Build status](https://github.com/DanielLiamAnderson/Packaide/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DanielLiamAnderson/Packaide/actions) [![License: GPL3](https://img.shields.io/badge/License-GPL-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 
-<img src="https://im2.ezgif.com/tmp/ezgif-2-f7d2f71f49.gif" alt="Fast packing" />
-
 A library for fast and robust 2D nesting of SVG shapes.
 
 ### Acknowledgements
@@ -28,6 +26,8 @@ Packaide was developed as part of the research project, Fabricaide, a system tha
   - [Installing](#installing)
 
 ## What is it?
+
+<img alight="right" src="https://im2.ezgif.com/tmp/ezgif-2-f7d2f71f49.gif" alt="Fast packing" />
 
 Packaide is a library for 2D nesting. Given a set of shapes, and a set of sheets on which to place them, the nesting problem is to find an overlap-free arrangement of the shapes onto the sheets. This problem arises frequently in fabrication and manufacturing. Packaide was designed to prioritize speed over optimality, so it employs fast heuristics and careful engineering to achieve good quality packings in a fraction of the time of similar libraries.
 
