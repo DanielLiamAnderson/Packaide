@@ -2,6 +2,8 @@
 
 [![Build status](https://github.com/DanielLiamAnderson/Packaide/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DanielLiamAnderson/Packaide/actions) [![License: GPL3](https://img.shields.io/badge/License-GPL-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 
+<img src="https://im2.ezgif.com/tmp/ezgif-2-f7d2f71f49.gif" alt="Fast packing" />
+
 A library for fast and robust 2D nesting of SVG shapes.
 
 ### Acknowledgements
@@ -112,7 +114,7 @@ shapes = """
 # holes that must be avoided when placing new parts. In this
 # case, a square in the upper-left-hand corner.
 sheet = """
-<svg width="300" height="300" viewBox="0 0 300 300">
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="100" height="100" />
 </svg>
 """
