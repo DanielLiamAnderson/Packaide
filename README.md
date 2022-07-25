@@ -27,7 +27,7 @@ Packaide was developed as part of the research project, Fabricaide, a system tha
 
 ## What is it?
 
-<img align="right" style="height: 120px; width: auto; margin: 5px;" src="https://im2.ezgif.com/tmp/ezgif-2-f7d2f71f49.gif" alt="Fast packing" />
+<img align="right" style="height: 120px; width: 140px; margin: 5px;" src="https://danielanderson.net/images/packing-animation.gif" alt="Fast packing animation" />
 
 Packaide is a library for 2D nesting. Given a set of shapes, and a set of sheets on which to place them, the nesting problem is to find an overlap-free arrangement of the shapes onto the sheets. This problem arises frequently in fabrication and manufacturing. Packaide was designed to prioritize speed over optimality, so it employs fast heuristics and careful engineering to achieve good quality packings in a fraction of the time of similar libraries.
 
